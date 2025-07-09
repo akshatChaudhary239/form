@@ -37,30 +37,38 @@ export async function POST(req: NextRequest) {
     </html>
   `;
 
-  try {
-    const browser = await puppeteer.launch({
-      args: chromium.args,
-      executablePath: await chromium.executablePath(),
-      headless: true,           // ✅ safely hardcoded
-      defaultViewport: null,    // ✅ safely hardcoded
-    });
+try {
+  console.log('Launching Chromium...');
+  const browser = await puppeteer.launch({
+    args: chromium.args,
+    executablePath: await chromium.executablePath(),
+    headless: true,
+    defaultViewport: null,
+  });
 
-    const page = await browser.newPage();
-    await page.setContent(htmlContent, { waitUntil: 'networkidle0' });
+  console.log('Opening new page...');
+  const page = await browser.newPage();
+  console.log('Setting HTML content...');
+  await page.setContent(htmlContent, { waitUntil: 'networkidle0' });
 
-    const pdfBuffer = await page.pdf({ format: 'A4' });
-    await browser.close();
+  console.log('Generating PDF...');
+  const pdfBuffer = await page.pdf({ format: 'A4' });
 
-    return new Response(pdfBuffer, {
-      headers: {
-        'Content-Type': 'application/pdf',
-        'Content-Disposition': 'attachment; filename="sale-deed.pdf"',
-      },
-    });
-  } catch (error) {
-    console.error('PDF generation error:', error);
-    return new Response(JSON.stringify({ error: 'PDF generation failed' }), {
-      status: 500,
-    });
-  }
+  console.log('Closing browser...');
+  await browser.close();
+
+  console.log('Sending PDF response...');
+  return new Response(pdfBuffer, {
+    headers: {
+      'Content-Type': 'application/pdf',
+      'Content-Disposition': 'attachment; filename="sale-deed.pdf"',
+    },
+  });
+} catch (error) {
+  console.error('🛑 PDF generation error:', error);
+  return new Response(JSON.stringify({ error: 'PDF generation failed' }), {
+    status: 500,
+  });
+}
+
 }
