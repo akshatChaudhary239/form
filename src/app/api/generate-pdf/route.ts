@@ -15,10 +15,15 @@ export async function POST(req: NextRequest) {
   const htmlContent = `
     <html>
       <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <style>
-          body { font-family: Arial, sans-serif; padding: 40px; }
-          h1 { text-align: center; margin-bottom: 40px; }
-          p { font-size: 18px; line-height: 1.6; }
+          body {
+            font-family: Arial, sans-serif;
+            padding: 40px;
+            line-height: 1.6;
+          }
+          h1 { text-align: center; margin-bottom: 30px; }
+          p { font-size: 18px; }
         </style>
       </head>
       <body>
@@ -33,9 +38,9 @@ export async function POST(req: NextRequest) {
 
   try {
     const browser = await puppeteer.launch({
-  headless: true,
-  args: ['--no-sandbox', '--disable-setuid-sandbox'],
-});
+      headless: true,
+      args: ['--no-sandbox', '--disable-setuid-sandbox'],
+    });
 
     const page = await browser.newPage();
     await page.setContent(htmlContent, { waitUntil: 'networkidle0' });
@@ -51,9 +56,8 @@ export async function POST(req: NextRequest) {
     });
   } catch (error) {
     console.error('PDF generation error:', error);
-    return new Response(
-      JSON.stringify({ error: 'PDF generation failed.' }),
-      { status: 500 }
-    );
+    return new Response(JSON.stringify({ error: 'PDF generation failed' }), {
+      status: 500,
+    });
   }
 }

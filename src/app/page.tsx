@@ -34,77 +34,57 @@ export default function HomePage() {
       a.click();
       window.URL.revokeObjectURL(url);
     } catch (error) {
-      alert('Error generating PDF. Check console.');
+      alert('PDF generation failed.');
       console.error(error);
     }
   };
 
   return (
-    <main className="min-h-screen bg-gradient-to-r from-blue-50 to-indigo-100 flex items-center justify-center p-4">
+    <main className="min-h-screen bg-gradient-to-br from-blue-100 to-indigo-100 flex items-center justify-center p-4">
       <motion.div
-        className="bg-white rounded-2xl shadow-xl p-8 w-full max-w-xl"
-        initial={{ opacity: 0, y: 50 }}
+        className="bg-white shadow-xl rounded-2xl w-full max-w-md md:max-w-xl p-6 md:p-10"
+        initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
       >
-        <motion.h1
-          className="text-3xl font-bold text-center mb-6 text-indigo-600"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.2 }}
-        >
-          Sale PDF Generator
-        </motion.h1>
+        <h1 className="text-2xl md:text-3xl font-bold text-indigo-600 text-center mb-8">
+          🖨️ Sale Deed PDF Generator
+        </h1>
 
         <div className="space-y-4">
+          {[
+            { label: 'Full Name', name: 'fullName' },
+            { label: "Father's Name", name: 'fatherName' },
+            { label: 'Property Size (sq.ft)', name: 'propertySize' },
+            { label: 'Sale Amount (₹)', name: 'saleAmount' },
+          ].map((field) => (
+            <motion.input
+              key={field.name}
+              type="text"
+              name={field.name}
+              placeholder={field.label}
+              className="w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-indigo-400 outline-none"
+              onChange={handleChange}
+              whileFocus={{ scale: 1.02 }}
+            />
+          ))}
+
           <motion.input
-            whileFocus={{ scale: 1.02 }}
-            type="text"
-            name="fullName"
-            placeholder="Full Name"
-            className="w-full border rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-400"
-            onChange={handleChange}
-          />
-          <motion.input
-            whileFocus={{ scale: 1.02 }}
-            type="text"
-            name="fatherName"
-            placeholder="Father's Name"
-            className="w-full border rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-400"
-            onChange={handleChange}
-          />
-          <motion.input
-            whileFocus={{ scale: 1.02 }}
-            type="text"
-            name="propertySize"
-            placeholder="Property Size (sq.ft)"
-            className="w-full border rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-400"
-            onChange={handleChange}
-          />
-          <motion.input
-            whileFocus={{ scale: 1.02 }}
-            type="text"
-            name="saleAmount"
-            placeholder="Sale Amount (₹)"
-            className="w-full border rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-400"
-            onChange={handleChange}
-          />
-          <motion.input
-            whileFocus={{ scale: 1.02 }}
             type="date"
             name="date"
-            className="w-full border rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+            className="w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-indigo-400 outline-none"
             onChange={handleChange}
+            whileFocus={{ scale: 1.02 }}
           />
         </div>
 
         <motion.button
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
           onClick={handleDownload}
-          className="mt-6 w-full bg-indigo-600 text-white py-3 rounded-xl font-semibold transition hover:bg-indigo-700"
+          className="w-full mt-6 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 rounded-xl"
+          whileHover={{ scale: 1.03 }}
+          whileTap={{ scale: 0.97 }}
         >
-          🖨️ Generate
+          Generate PDF
         </motion.button>
       </motion.div>
     </main>
