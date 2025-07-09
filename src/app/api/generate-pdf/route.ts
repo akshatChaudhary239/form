@@ -49,7 +49,7 @@ export async function POST(req: NextRequest) {
         'Content-Disposition': 'attachment; filename="sale-deed.pdf"',
       },
     });
-  } catch (error: any) {
+  } catch (error) {
     console.error('PDF generation error:', error);
     return new Response(
       JSON.stringify({ error: 'PDF generation failed.' }),
