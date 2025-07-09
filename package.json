@@ -10,10 +10,10 @@
   },
   "dependencies": {
     "@sparticuz/chromium": "^137.0.1",
+    "@sparticuz/chromium-min": "^138.0.0",
     "html2pdf.js": "^0.10.3",
     "motion": "^12.23.1",
     "next": "15.3.5",
-    "puppeteer": "^24.12.1",
     "puppeteer-core": "^24.12.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"

@@ -1,5 +1,6 @@
-import puppeteer from 'puppeteer';
 import { NextRequest } from 'next/server';
+import chromium from '@sparticuz/chromium-min';
+import puppeteer from 'puppeteer-core';
 
 type FormData = {
   fullName: string;
@@ -38,8 +39,10 @@ export async function POST(req: NextRequest) {
 
   try {
     const browser = await puppeteer.launch({
-      headless: true,
-      args: ['--no-sandbox', '--disable-setuid-sandbox'],
+      args: chromium.args,
+      executablePath: await chromium.executablePath(),
+      headless: true,           // ✅ safely hardcoded
+      defaultViewport: null,    // ✅ safely hardcoded
     });
 
     const page = await browser.newPage();
