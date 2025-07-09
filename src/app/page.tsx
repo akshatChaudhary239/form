@@ -84,7 +84,7 @@ export default function HomePage() {
           whileHover={{ scale: 1.03 }}
           whileTap={{ scale: 0.97 }}
         >
-          Generate Pdf
+          Generate PDF
         </motion.button>
       </motion.div>
     </main>
