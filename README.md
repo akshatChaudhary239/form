@@ -9,7 +9,7 @@ First, run the development server:
 git clone https://github.com/your‑handle/pdf‑generator.git
 cd pdf‑generator
 
-# 2. Install deps (choose one)
+# 2. Install deps
 npm install
 
 # 3. Run locally
