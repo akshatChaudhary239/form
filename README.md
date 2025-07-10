@@ -1,24 +1,33 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+This is a Pdf gnerator project build in Next.js,tailwind CSS, Framer-motion and Puppeteer
 
 ## Getting Started
 
 First, run the development server:
 
 ```bash
+# 1. Clone
+git clone https://github.com/your‑handle/pdf‑generator.git
+cd pdf‑generator
+
+# 2. Install deps (choose one)
+npm install
+
+# 3. Run locally
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# open http://localhost:3000
+
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+How it works- 
+
+~ page.tsx collects the five form fields and POSTs JSON to /api/generate-pdf.
+
+~ route.ts launches a headless copy of Chromium (provided by @sparticuz/chromium‑min), injects the HTML template, renders, and returns the PDF buffer.
+
+~ The browser receives a blob, creates a temporary URL, and triggers a download called sale-deed.pdf..
 
 ## Learn More
 
@@ -31,6 +40,35 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 
 ## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The easiest way to deploy your Next.js app is to use vercel 
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+first Push your code to GitHub
+
+git remote add origin <name of the repo of the respective user>
+git push -u origin main
+
+then we have to Import that into Vercel
+
+Framework = Next.js
+
+Root = / (monorepo? point to your folder)
+
+Environment = Node.js (API route; not Edge)
+
+if your first build fails?
+Make sure to have:
+
+// next.config.ts
+export default {
+  serverExternalPackages: ['@sparticuz/chromium-min', 'puppeteer-core'],
+};
+and at the very top of route.ts:
+
+export const runtime = 'nodejs';
+
+Done! Your URL will look somewhat like
+https://pdf‑generator‑your‑name.vercel.app
+
+
+
